@@ -77,3 +77,62 @@ function getPaycheck({isFullTime,salary,billRate = 123}:EmployeeType){
 
 getPaycheck({isFullTime:true,salary:1234,billRate:27});
 
+
+//Be very careful of private modifiers if you are using webpack. It deletes it and makes it public, well known bug.
+class Catalog{
+    private products: Array<string>;
+
+    //Typescript only allows one constructor.
+    constructor(list: Array<string>){
+        this.products = list;
+    }
+}
+
+//Theres a shorthand version. Does not reduce size of compiled javascript
+class ShortHandCatalog{
+    constructor(private list: Array<string>){
+
+    }
+
+    //This is a method returning null that just writes out each element in the list
+    listAll():void{
+        this.list.forEach(x => console.log(x));
+    }
+
+    protected shouldNotBeInherited:string = "boo";
+}
+
+let catalog = new ShortHandCatalog(["iPhone","Windows"]);
+catalog.listAll();
+
+//Inheritance, syntax stolen from java
+class DownloadableProduct extends ShortHandCatalog{
+    constructor(products: Array<string>, private lengthInPages:number){
+        super(products);
+    }
+
+    listAll(){
+        super.listAll();
+        console.log("Overridden function");
+    }
+
+}
+
+let downloadableCatalog = new DownloadableProduct(["dave","bob"],1);
+downloadableCatalog.listAll();
+
+//Can't be inherited!
+//console.log(downloadableCatalog.shouldNotBeInherited);
+
+let yetAnotherCatalog = {
+    name: "Phone",
+    phones: ["iPhone","Pixel"],
+    listPhones: function(){
+        // Need to use this so you can access the 'this' variable from this level even when you're inside another
+        // function. This is a javascript quirk rather than typescript specific.
+        var self = this;
+        this.phones.forEach(x => console.log(`${self.name} is ${x}`));
+    }
+};
+
+yetAnotherCatalog.listPhones();
