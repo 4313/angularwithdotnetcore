@@ -1,10 +1,26 @@
-<div class="card" (mouseenter)='onHover()' (mouseleave)='offHover()' [ngClass]="{'card':true, 'bg-dark': isHovered}">
-  <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+<div (mouseenter)='onHover()' (mouseleave)='offHover()' [ngClass]="{'card':true, 'mt-1':true,'mb-1':true, 'border border-primary active': isHovered && !present.isTaken, 'text-white bg-info': present.isTaken}">
+  <div class="custom-image-container">
+    <img class="card-img-top" [src]='present.imageLink' alt="Card image cap">
+  </div>
   <div class="card-body">
     <h4 class="card-title">{{present.name}}</h4>
-    <p class="card-text">
-      {{present.description}}
-    </p>
-    <a class="card-link" [href]="present.storeLink">View Product</a>
+    <div *ngIf="!present.isTaken">
+      <p class="card-text">
+        {{present.price |currency:'GBP':true:'1.2-2'}}
+      </p>
+      <a class="card-link" [href]="present.storeLink">View Product</a>
+      <div *ngIf='isHovered' class="mt-2 row justify-content-center">
+        <div class="form-group col-l mb-0">
+          <input #name type="text" id="name" placeholder="Your name" />
+        </div>
+        <button class="btn btn-raised btn-primary col-s ml-4" (click)='take(name.value)'>Claim</button>
+      </div>
+    </div>
+    <div *ngIf="present.isTaken">
+      <p class="card-text">
+        Claimed by {{present.nameOfPurchaser}}
+      </p>
+      <button class="btn btn-raised btn-danger" (click)='unTake()'>Unclaim item</button>
+    </div>
   </div>
 </div>

@@ -13,23 +13,29 @@ export class ChristmasListComponent implements OnInit {
         this.presents =[
             {
                 name: "Microwave",
-                description: "uhhh its a microwave",
-                storeLink: "https://www.amazon.co.uk/Russell-Hobbs-RHM2076B-Digital-Microwave/dp/B00GYU8SFY/ref=sr_1_1?s=kitchen-appliances&ie=UTF8&qid=1510072154&sr=1-1&keywords=microwave"
+                price: 79.99,
+                storeLink: "https://www.currys.co.uk/gbuk/household-appliances/cooking/microwaves/kenwood-k23cm13-combination-microwave-mirror-finish-19394353-pdt.html",
+                imageLink: "https://brain-images-ssl.cdn.dixons.com/3/5/19394353/l_19394353.jpg",
+                isTaken:false
             },
             {
                 name: "Sofa",
-                description: "2 seat sofa",
-                storeLink: "https://www.amazon.co.uk/Russell-Hobbs-RHM2076B-Digital-Microwave/dp/B00GYU8SFY/ref=sr_1_1?s=kitchen-appliances&ie=UTF8&qid=1510072154&sr=1-1&keywords=microwave"
+                price: 799,
+                storeLink: "https://www.fishpools.co.uk/jacob-medium-sofa/p45635",
+                imageLink: "https://www.fishpools.co.uk/images/products/medium/45635.jpg",
+                isTaken:false
             },
             {
                 name: "TV",
-                description: "40 Inch 4K",
-                storeLink: "https://www.amazon.co.uk/Russell-Hobbs-RHM2076B-Digital-Microwave/dp/B00GYU8SFY/ref=sr_1_1?s=kitchen-appliances&ie=UTF8&qid=1510072154&sr=1-1&keywords=microwave"
+                price: 399,
+                storeLink: "https://www.currys.co.uk/gbuk/tv-and-home-entertainment/televisions/televisions/samsung-ue40mu6120-40-smart-4k-ultra-hd-hdr-led-tv-10169112-pdt.html",
+                imageLink: "https://brain-images-ssl.cdn.dixons.com/2/1/10169112/m_10169112.jpg",
+                isTaken:false
             }
         ];
     }
-    addPresent(name: string, description: string, storeLink: string): void {
-        const bob = {name:name,description:description,storeLink:storeLink};
+    addPresent(name: string, price: number, storeLink: string, imageLink:string): void {
+        const bob = {name:name,price:price,storeLink:storeLink,imageLink:imageLink,isTaken:false};
         this.presents.push(bob);
     }
 

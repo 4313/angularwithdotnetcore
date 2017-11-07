@@ -1,0 +1,7 @@
+.card {
+    width: 25em;
+    height: 25em;
+}
+.custom-image-container {
+    overflow: hidden;    
+}

@@ -1,8 +1,9 @@
-<div class="container" *ngIf="presents.length">
-    <h1>{{header}}</h1>
-    <ul *ngFor="let p of presents">
-        <app-christmas-present [present]='p'></app-christmas-present>
-    </ul>
+<div class="container mt-3 mb-3" *ngIf="presents.length">
+    <div class="card-deck">
+        <div *ngFor="let p of presents; let i = index">
+            <app-christmas-present [present]='p'></app-christmas-present>
+        </div>
+    </div>
 </div>
 <div class="container">
     <div class="form-group">
@@ -17,5 +18,9 @@
         <label for="presentLink">Present Link</label>
         <input #presentLink type="text" id="presentLink" />
     </div>
-    <button class="btn btn-primary" (click)='addPresent(presentName.value,presentDescription.value,presentLink.value)'>Add a present</button>
+    <div class="form-group">
+        <label for="imageLink">Present Link</label>
+        <input #imageLink type="text" id="imageLink" />
+    </div>
+    <button class="btn btn-primary" (click)='addPresent(presentName.value,presentDescription.value,presentLink.value,imageLink.value)'>Add a present</button>
 </div>

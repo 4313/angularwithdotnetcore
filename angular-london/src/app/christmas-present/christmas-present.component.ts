@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Present } from '../models/present';
 
 @Component({
@@ -6,17 +6,24 @@ import { Present } from '../models/present';
   templateUrl: './christmas-present.component.html',
   styleUrls: ['./christmas-present.component.css']
 })
-export class ChristmasPresentComponent implements OnInit {
+export class ChristmasPresentComponent {
   @Input()present: Present;
+
   isHovered:boolean = false;
   constructor() { 
-  }
-  ngOnInit() {
   }
   onHover(): void {
     this.isHovered = true;
   }
   offHover(): void {
     this.isHovered = false;
+  }
+  take(nameOfPurchaser: string): void {
+    this.present.nameOfPurchaser = nameOfPurchaser;
+    this.present.isTaken = true;
+  }
+  unTake():void {
+    this.present.nameOfPurchaser = null;
+    this.present.isTaken = false;
   }
 }
