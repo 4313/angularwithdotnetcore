@@ -130,9 +130,142 @@ let yetAnotherCatalog = {
     listPhones: function(){
         // Need to use this so you can access the 'this' variable from this level even when you're inside another
         // function. This is a javascript quirk rather than typescript specific.
-        var self = this;
-        this.phones.forEach(x => console.log(`${self.name} is ${x}`));
+        // let self = this;
+
+        // If you use an arrow function you dont need to do this because it doesn't declare a new LHS.
+        this.phones.forEach(x => console.log(`${this.name} is ${x}`));
     }
 };
 
 yetAnotherCatalog.listPhones();
+
+// Interface is a more fully featured version of type. Only really use interfaces. They can have functions.
+interface IProduct{
+    id?: number;
+    model?: string;
+}
+
+//Define the input type as an Interface.
+function getProductModel(product: IProduct){
+    console.log(product.model);
+}
+
+//You can pass anything that fulfills the interface
+getProductModel({id:1,model:"iPhone"});
+
+// unit testing quality code, not production.
+let product = <IProduct>{};
+product.id = 123;
+product.model = "dave";
+getProductModel(product);
+
+class Product2 implements IProduct {
+    id: number;
+    model: string;
+    constructor(id: number, model:string){
+        //Note this mistake.
+        this.id = null;
+        this.model = model;
+    }
+}
+
+let product2 = new Product2(1,"bob");
+getProductModel(product2);
+
+// Declare the type of the function
+let getFullName: (first: string, last: string) => string;
+
+//Implement the function. Have to match the declaration when called.
+getFullName = function(first,last){
+    return `Full name: ${first} ${last}`;
+};
+
+console.log(getFullName("Daniel","Bass"));
+
+let divide: (n:number, d:number) => number
+    = function(n,d){
+        if(d===0){
+            return 0;
+        } else {
+            return n/d;
+        }
+};
+
+console.log(divide(9,3));
+
+//Different way of typing the function using an interface
+interface IDivide {
+    (n:number, d:number): number;
+}
+
+let iDivide : IDivide;
+iDivide = function(n,d) {
+    if (d === 0) {
+        return 0;
+    } else {
+        return n / d;
+    }
+};
+console.log(iDivide(4,2));
+
+class Repository<T>{
+    private width: number;
+    private height: number;
+    private rows: T[];
+
+    // Only way you're allowed multipled constructors. Absolutely foul. Your bottom constructor
+    // needs to implement the above method declarations. So you need to do a load of type checking to make sure you drop
+    // into the right one. Bizarre given javascript
+    constructor(array: T[]);
+    constructor(width: number, height:number,defaultFill: T);
+    constructor(a1,a2?,a3?){
+        if(typeof a1 == 'number' && typeof a2 == 'number'){
+            console.log(`a1 is ${a1}`);
+        } else if (a1 instanceof Array){
+            console.log(`Worked ${a1}`);
+        } else {
+            throw new TypeError("unexpected arguements to constructor");
+        }
+    }
+}
+
+let firstRepo = new Repository<number>(1,2,3);
+let secondRepo = new Repository<IProduct>(1,2,<IProduct>{});
+// basically do not use multiple constructors. Use it only for dependency injection.
+
+interface IBook {
+    title: string;
+    bookCost: number;
+    tax: number;
+    getPrice: ()=> number;
+}
+
+class AudioBook implements IBook{
+    title: string;
+    bookCost: number;
+    tax: number;
+    getPrice(): number{
+        return this.bookCost + this.tax;
+    }
+    constructor(title:string,bookCost:number,tax:number){
+        this.title = title;
+        this.bookCost = bookCost;
+        this.tax = tax;
+    }
+}
+
+// Genuinely the title given by the course instructor. Note this is an INTERFACE extending a CLASS. Evil. Pure Evil.
+interface DontDoThisEverForDonaldTrumpSake extends AudioBook{
+    killMe:string;
+}
+//Then you can implement that interface -
+class SeriouslyHowCanTSAllowThis implements DontDoThisEverForDonaldTrumpSake {
+    killMe:string;
+    title: string;
+    bookCost: number;
+    tax: number;
+    getPrice(): number{
+        return 0;
+    }
+}
+

@@ -117,8 +117,93 @@ var yetAnotherCatalog = {
     listPhones: function () {
         // Need to use this so you can access the 'this' variable from this level even when you're inside another
         // function. This is a javascript quirk rather than typescript specific.
-        var self = this;
-        this.phones.forEach(function (x) { return console.log(self.name + " is " + x); });
+        // let self = this;
+        var _this = this;
+        // If you use an arrow function you dont need to do this because it doesn't declare a new LHS.
+        this.phones.forEach(function (x) { return console.log(_this.name + " is " + x); });
     }
 };
 yetAnotherCatalog.listPhones();
+//Define the input type as an Interface.
+function getProductModel(product) {
+    console.log(product.model);
+}
+//You can pass anything that fulfills the interface
+getProductModel({ id: 1, model: "iPhone" });
+// unit testing quality code, not production.
+var product = {};
+product.id = 123;
+product.model = "dave";
+getProductModel(product);
+var Product2 = (function () {
+    function Product2(id, model) {
+        //Note this mistake.
+        this.id = null;
+        this.model = model;
+    }
+    return Product2;
+}());
+var product2 = new Product2(1, "bob");
+getProductModel(product2);
+// Declare the type of the function
+var getFullName;
+//Implement the function. Have to match the declaration when called.
+getFullName = function (first, last) {
+    return "Full name: " + first + " " + last;
+};
+console.log(getFullName("Daniel", "Bass"));
+var divide = function (n, d) {
+    if (d === 0) {
+        return 0;
+    }
+    else {
+        return n / d;
+    }
+};
+console.log(divide(9, 3));
+var iDivide;
+iDivide = function (n, d) {
+    if (d === 0) {
+        return 0;
+    }
+    else {
+        return n / d;
+    }
+};
+console.log(iDivide(4, 2));
+var Repository = (function () {
+    function Repository(a1, a2, a3) {
+        if (typeof a1 == 'number' && typeof a2 == 'number') {
+            console.log("a1 is " + a1);
+        }
+        else if (a1 instanceof Array) {
+            console.log("Worked " + a1);
+        }
+        else {
+            throw new TypeError("unexpected arguements to constructor");
+        }
+    }
+    return Repository;
+}());
+var firstRepo = new Repository(1, 2, 3);
+var secondRepo = new Repository(1, 2, {});
+var AudioBook = (function () {
+    function AudioBook(title, bookCost, tax) {
+        this.title = title;
+        this.bookCost = bookCost;
+        this.tax = tax;
+    }
+    AudioBook.prototype.getPrice = function () {
+        return this.bookCost + this.tax;
+    };
+    return AudioBook;
+}());
+//Then you can implement that interface -
+var SeriouslyHowCanTSAllowThis = (function () {
+    function SeriouslyHowCanTSAllowThis() {
+    }
+    SeriouslyHowCanTSAllowThis.prototype.getPrice = function () {
+        return 0;
+    };
+    return SeriouslyHowCanTSAllowThis;
+}());
