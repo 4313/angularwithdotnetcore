@@ -1,0 +1,10 @@
+<div class="card" (mouseenter)='onHover()' (mouseleave)='offHover()' [ngClass]="{'card':true, 'bg-dark': isHovered}">
+  <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+  <div class="card-body">
+    <h4 class="card-title">{{present.name}}</h4>
+    <p class="card-text">
+      {{present.description}}
+    </p>
+    <a class="card-link" [href]="present.storeLink">View Product</a>
+  </div>
+</div>
