@@ -1,3 +1,4 @@
+//install node and run npm install -g typescript. Then open in webstorm and say yes when it asks you if you want it to compile to javascript
 //Class
 var Product = (function () {
     function Product() {
@@ -45,3 +46,18 @@ function setDefault(employee) {
 }
 setDefault({ empName: 'Bass' });
 setDefault({ empName: 'Bass', companyName: 'bob' });
+function setDefaultValues(_a) {
+    var _b = _a === void 0 ? { empName: 'Bass', companyName: 'Cazton' } : _a, empName = _b.empName, companyName = _b.companyName;
+    console.log("Employee name is " + empName + " and company name is " + companyName);
+    //This is showcasing the destructuring and setting of default values all in the parameters.
+}
+setDefaultValues();
+setDefaultValues({ empName: 'bob', companyName: 'dave' });
+//you can use object destructuring on types as well
+function getPaycheck(_a) {
+    var isFullTime = _a.isFullTime, salary = _a.salary, _b = _a.billRate, billRate = _b === void 0 ? 123 : _b;
+    console.log(isFullTime);
+    console.log(salary);
+    console.log(billRate);
+}
+getPaycheck({ isFullTime: true, salary: 1234, billRate: 27 });
